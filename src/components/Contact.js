@@ -1,63 +1,48 @@
 import React, { useRef } from 'react';
-import './Contact.css';
 import emailjs from 'emailjs-com';
 
-const Contact = ({ darkMode }) => {
+const Contact = () => {
   const form = useRef();
 
-const sendEmail = (e) => {
-  e.preventDefault();
+  const sendEmail = (e) => {
+    e.preventDefault();
 
-  const email = form.current.email.value;
-  const name = form.current.name.value;
-  const message = form.current.message.value;
-
-  // Basic Email Format Validation (Regex)
-  const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
-
-  if (!name || !email || !message) {
-    alert('Please fill out all fields.');
-    return;
-  }
-
-  if (!emailRegex.test(email)) {
-    alert('Please enter a valid email address.');
-    return;
-  }
-
-  // If all is valid, send
-  emailjs.sendForm(
+    emailjs.sendForm(
       'service_39iuxf8',
       'template_3rky2dq',
       form.current,
       'glnahPLXPdrZK_OcP'
     )
     .then(result => {
-      console.log('Message Sent:', result.text);
       alert('Message sent successfully!');
-      form.current.reset(); // Optional: clear form
+      form.current.reset();
     })
     .catch(error => {
-      console.error('Send Error:', error);
       alert('Failed to send message.');
+      console.error(error);
     });
-};
+  };
 
   return (
-    <section className={`contact-section ${darkMode ? 'dark' : 'light'}`}>
-      <h2 className="contact-title">📬 Contact Me</h2>
+    <section className="contact-section" id="contact">
+      <h2>📬 Contact Me</h2>
       <div className="contact-container">
+        
+        {/* Contact Info */}
         <div className="contact-info">
-          <p>📧 nirmalbarot067@gmail.com</p>
-          <p>📍 Ahmedabad, Gujarat, India</p>
+          <p><strong>Email:</strong> nirmalbarot067@gmail.com</p>
+          <p><strong>Location:</strong> Ahmedabad, Gujarat, India</p>
           <p>
-            Whether it's building something cool, solving a real-world problem, or just geeking out over code — I'm always up for a conversation.
+            Whether it’s building something cool, solving a real-world problem, 
+            or just geeking out over code — I’m always open to connect 🚀
           </p>
         </div>
-        <form className="contact-form" ref={form} onSubmit={sendEmail}>
-          <input type="text" name="name" className='nm' placeholder="Your Name" required />
-          <input type="email" name="email" className='em' placeholder="Your Email" required />
-          <textarea name="message" placeholder="Your Message" required></textarea>
+
+        {/* Contact Form */}
+        <form ref={form} onSubmit={sendEmail} className="contact-form">
+          <input type="text" name="name" placeholder="Your Name" required />
+          <input type="email" name="email" placeholder="Your Email" required />
+          <textarea name="message" placeholder="Your Message" required />
           <button type="submit" className="send-btn">Send Message</button>
         </form>
       </div>
